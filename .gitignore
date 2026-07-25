@@ -34,3 +34,12 @@ model-cache/
 benchmarks/local/
 benchmark-results/
 *.benchmark.json
+
+# Local analysis-model benchmark artifacts
+benchmarks/analysis-models/.cache/
+benchmarks/analysis-models/.venv/
+benchmarks/analysis-models/downloads/
+benchmarks/analysis-models/generated/
+benchmarks/analysis-models/results/*.json
+benchmarks/analysis-models/results/*.csv
+benchmarks/analysis-models/results/*.onnx

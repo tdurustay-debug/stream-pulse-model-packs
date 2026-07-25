@@ -1,0 +1,386 @@
+{
+  "dataset_kind": "technical_smoke_test",
+  "warning": "This small, transparent dataset checks tokenization and execution paths only. It is not a scientific model-quality benchmark and has no labeled ground truth for production classification.",
+  "categories": [
+    "neutral_chat",
+    "positive_chat",
+    "viewer_question",
+    "disagreement",
+    "aggressive_conflict",
+    "repeated_complaint",
+    "spam_like_repetition",
+    "streamer_mention"
+  ],
+  "languages": [
+    {
+      "language": "en-US",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "The stream starts in ten minutes."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Great stream today, the new setup looks good!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Can you increase the game audio a little?"
+        },
+        {
+          "category": "disagreement",
+          "text": "I think the previous settings sounded better."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Stop arguing with everyone; this is getting too heated."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "The game audio is low again; it has been low all stream."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Join now, join now, join now!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, can you check the microphone?"
+        }
+      ]
+    },
+    {
+      "language": "es-ES",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "La transmisión empieza en diez minutos."
+        },
+        {
+          "category": "positive_chat",
+          "text": "¡Gran directo hoy, el nuevo equipo se ve muy bien!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "¿Puedes subir un poco el audio del juego?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Creo que la configuración anterior sonaba mejor."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Deja de discutir con todos; esto se está calentando demasiado."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "El audio del juego vuelve a estar bajo; lleva así todo el directo."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "¡Únete ahora, únete ahora, únete ahora!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, ¿puedes revisar el micrófono?"
+        }
+      ]
+    },
+    {
+      "language": "pt-BR",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "A transmissão começa em dez minutos."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Ótima live hoje, o novo cenário ficou muito bom!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Você pode aumentar um pouco o áudio do jogo?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Acho que as configurações anteriores soavam melhor."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Pare de discutir com todo mundo; isso está ficando intenso demais."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "O áudio do jogo está baixo de novo; ficou baixo a live inteira."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Entre agora, entre agora, entre agora!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, você pode verificar o microfone?"
+        }
+      ]
+    },
+    {
+      "language": "ru-RU",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "Трансляция начнётся через десять минут."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Сегодня отличный стрим, новая студия выглядит здорово!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Можешь сделать звук игры немного громче?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Мне кажется, прежние настройки звучали лучше."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Хватит спорить со всеми; разговор становится слишком напряжённым."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "Звук игры снова тихий; он тихий всю трансляцию."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Заходи сейчас, заходи сейчас, заходи сейчас!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, можешь проверить микрофон?"
+        }
+      ]
+    },
+    {
+      "language": "de-DE",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "Der Stream beginnt in zehn Minuten."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Toller Stream heute, das neue Setup sieht gut aus!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Kannst du den Spielton etwas lauter machen?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Ich finde, die vorherigen Einstellungen klangen besser."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Hör auf, mit allen zu streiten; das wird zu hitzig."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "Der Spielton ist schon wieder leise; er war den ganzen Stream leise."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Jetzt beitreten, jetzt beitreten, jetzt beitreten!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, kannst du das Mikrofon prüfen?"
+        }
+      ]
+    },
+    {
+      "language": "fr-FR",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "Le direct commence dans dix minutes."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Super direct aujourd'hui, la nouvelle installation est réussie !"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Peux-tu augmenter un peu le son du jeu ?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Je trouve que les réglages précédents sonnaient mieux."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Arrête de te disputer avec tout le monde ; ça devient trop tendu."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "Le son du jeu est encore faible ; il l'est depuis le début du direct."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Rejoins maintenant, rejoins maintenant, rejoins maintenant !"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, peux-tu vérifier le micro ?"
+        }
+      ]
+    },
+    {
+      "language": "ja-JP",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "配信は10分後に始まります。"
+        },
+        {
+          "category": "positive_chat",
+          "text": "今日の配信は最高です。新しいセットも素敵です！"
+        },
+        {
+          "category": "viewer_question",
+          "text": "ゲームの音をもう少し大きくできますか？"
+        },
+        {
+          "category": "disagreement",
+          "text": "前の設定のほうが音が良かったと思います。"
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "みんなと口論するのはやめてください。雰囲気が険悪です。"
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "ゲーム音がまた小さいです。配信中ずっと小さいままです。"
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "今すぐ参加、今すぐ参加、今すぐ参加！"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer、マイクを確認してもらえますか？"
+        }
+      ]
+    },
+    {
+      "language": "it-IT",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "La diretta inizia tra dieci minuti."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Bella diretta oggi, la nuova postazione è fantastica!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Puoi alzare un po' l'audio del gioco?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Secondo me le impostazioni precedenti suonavano meglio."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Smettila di discutere con tutti; la situazione è troppo accesa."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "L'audio del gioco è di nuovo basso; è così da tutta la diretta."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Entra ora, entra ora, entra ora!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, puoi controllare il microfono?"
+        }
+      ]
+    },
+    {
+      "language": "pl-PL",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "Transmisja rozpocznie się za dziesięć minut."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Świetna transmisja, nowe stanowisko wygląda bardzo dobrze!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Czy możesz trochę zwiększyć głośność gry?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Moim zdaniem poprzednie ustawienia brzmiały lepiej."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Przestań się ze wszystkimi kłócić; robi się zbyt nerwowo."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "Dźwięk gry znowu jest cichy; jest taki przez całą transmisję."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Dołącz teraz, dołącz teraz, dołącz teraz!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, czy możesz sprawdzić mikrofon?"
+        }
+      ]
+    },
+    {
+      "language": "tr-TR",
+      "messages": [
+        {
+          "category": "neutral_chat",
+          "text": "Yayın on dakika sonra başlayacak."
+        },
+        {
+          "category": "positive_chat",
+          "text": "Bugünkü yayın harika, yeni düzen çok güzel görünüyor!"
+        },
+        {
+          "category": "viewer_question",
+          "text": "Oyunun sesini biraz yükseltebilir misin?"
+        },
+        {
+          "category": "disagreement",
+          "text": "Bence önceki ayarlar daha iyi ses veriyordu."
+        },
+        {
+          "category": "aggressive_conflict",
+          "text": "Herkesle tartışmayı bırak; ortam gereğinden fazla gerildi."
+        },
+        {
+          "category": "repeated_complaint",
+          "text": "Oyunun sesi yine düşük; yayın boyunca hep düşük kaldı."
+        },
+        {
+          "category": "spam_like_repetition",
+          "text": "Şimdi katıl, şimdi katıl, şimdi katıl!"
+        },
+        {
+          "category": "streamer_mention",
+          "text": "@Streamer, mikrofonu kontrol edebilir misin?"
+        }
+      ]
+    }
+  ]
+}

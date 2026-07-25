@@ -1,0 +1,10 @@
+huggingface-hub==0.33.4
+hf-xet==1.5.2
+numpy==2.2.6
+onnx==1.18.0
+onnxruntime==1.22.0
+psutil==7.0.0
+safetensors==0.5.3
+sentencepiece==0.2.0
+torch==2.7.1
+transformers==4.53.2
