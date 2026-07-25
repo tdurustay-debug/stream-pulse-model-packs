@@ -1,0 +1,36 @@
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+*.part
+*.download
+*.log
+.cache/
+tmp/
+temp/
+
+# Downloaded or unpacked model sources
+downloaded-models/
+source-models/
+unpacked-models/
+model-cache/
+
+# Model binaries and archives
+*.gguf
+*.onnx
+*.safetensors
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.bin
+*.model
+*.model-pack
+*.modelpack
+*.weights
+
+# Local benchmark output
+benchmarks/local/
+benchmark-results/
+*.benchmark.json

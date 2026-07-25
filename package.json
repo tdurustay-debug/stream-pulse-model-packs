@@ -1,0 +1,14 @@
+{
+  "name": "stream-pulse-model-packs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Manifest and validation tooling for official Stream Pulse AI model packs",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-manifest.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

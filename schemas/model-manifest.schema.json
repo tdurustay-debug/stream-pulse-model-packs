@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stream Pulse AI Model Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifestVersion",
+    "generatedAt",
+    "languageAnalysisPacks",
+    "ruleInterpreterPacks",
+    "speechRecognitionPacks"
+  ],
+  "properties": {
+    "manifestVersion": {
+      "$ref": "#/$defs/semanticVersion"
+    },
+    "generatedAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "languageAnalysisPacks": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/pack"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "language-analysis"
+              },
+              "language": {
+                "enum": [
+                  "en-US",
+                  "es-ES",
+                  "pt-BR",
+                  "ru-RU",
+                  "de-DE",
+                  "fr-FR",
+                  "ja-JP",
+                  "it-IT",
+                  "pl-PL",
+                  "tr-TR"
+                ]
+              },
+              "optional": {
+                "const": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    "ruleInterpreterPacks": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/pack"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "rule-interpreter"
+              },
+              "language": {
+                "const": "multilingual"
+              },
+              "optional": {
+                "const": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    "speechRecognitionPacks": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/pack"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "speech-recognition"
+              },
+              "language": {
+                "const": "multilingual"
+              },
+              "optional": {
+                "const": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "nullableSemanticVersion": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableHttpsUrl": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableNonemptyString": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "nullableNonnegativeInteger": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "nullablePositiveInteger": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "language",
+        "displayName",
+        "status",
+        "version",
+        "runtime",
+        "format",
+        "sourceModel",
+        "sourceRevision",
+        "sourceUrl",
+        "licenseId",
+        "licenseFile",
+        "attributionFile",
+        "redistributable",
+        "commercialUseAllowed",
+        "modificationAllowed",
+        "fileName",
+        "downloadUrl",
+        "backupLocations",
+        "sizeBytes",
+        "sha256",
+        "minimumRamMb",
+        "recommendedRamMb",
+        "minimumCpuThreads",
+        "gpuOptional",
+        "contextWindow",
+        "supportedTasks",
+        "description",
+        "evaluationStatus",
+        "evaluationNotes",
+        "optional"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[A-Za-z0-9]+)*$"
+        },
+        "type": {
+          "enum": [
+            "language-analysis",
+            "rule-interpreter",
+            "speech-recognition"
+          ]
+        },
+        "language": {
+          "enum": [
+            "en-US",
+            "es-ES",
+            "pt-BR",
+            "ru-RU",
+            "de-DE",
+            "fr-FR",
+            "ja-JP",
+            "it-IT",
+            "pl-PL",
+            "tr-TR",
+            "multilingual"
+          ]
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "evaluating",
+            "ready",
+            "deprecated",
+            "disabled"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/nullableSemanticVersion"
+        },
+        "runtime": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "format": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "sourceModel": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "sourceRevision": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "sourceUrl": {
+          "$ref": "#/$defs/nullableHttpsUrl"
+        },
+        "licenseId": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "licenseFile": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "attributionFile": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "redistributable": {
+          "type": ["boolean", "null"]
+        },
+        "commercialUseAllowed": {
+          "type": ["boolean", "null"]
+        },
+        "modificationAllowed": {
+          "type": ["boolean", "null"]
+        },
+        "fileName": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "downloadUrl": {
+          "$ref": "#/$defs/nullableHttpsUrl"
+        },
+        "backupLocations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sizeBytes": {
+          "$ref": "#/$defs/nullableNonnegativeInteger"
+        },
+        "sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "minimumRamMb": {
+          "$ref": "#/$defs/nullablePositiveInteger"
+        },
+        "recommendedRamMb": {
+          "$ref": "#/$defs/nullablePositiveInteger"
+        },
+        "minimumCpuThreads": {
+          "$ref": "#/$defs/nullablePositiveInteger"
+        },
+        "gpuOptional": {
+          "type": ["boolean", "null"]
+        },
+        "contextWindow": {
+          "$ref": "#/$defs/nullablePositiveInteger"
+        },
+        "supportedTasks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+          }
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluationStatus": {
+          "enum": [
+            "not_started",
+            "testing",
+            "passed",
+            "failed"
+          ]
+        },
+        "evaluationNotes": {
+          "type": ["string", "null"]
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ready"
+              }
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "version": {
+                "$ref": "#/$defs/semanticVersion"
+              },
+              "runtime": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceModel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceRevision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceUrl": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "licenseId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "licenseFile": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attributionFile": {
+                "type": "string",
+                "minLength": 1
+              },
+              "redistributable": {
+                "const": true
+              },
+              "commercialUseAllowed": {
+                "const": true
+              },
+              "modificationAllowed": {
+                "type": "boolean"
+              },
+              "fileName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "downloadUrl": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "backupLocations": {
+                "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "sizeBytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
+              },
+              "minimumRamMb": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "recommendedRamMb": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "minimumCpuThreads": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "supportedTasks": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "evaluationStatus": {
+                "const": "passed"
+              },
+              "evaluationNotes": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
