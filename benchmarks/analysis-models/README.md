@@ -1,5 +1,12 @@
 # Analysis Base-Model CPU Benchmark
 
+> **Research only — not selected for production chat analysis.**
+
+MiniLM and DistilBERT are retained here only to preserve the completed research
+record. Do not package or release either candidate as the production
+chat-analysis engine. The production architecture now uses planned Qwen3
+context analyzers with separate weight-free language prompt/profile packages.
+
 This local benchmark compares two candidate multilingual representation models:
 
 - `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`

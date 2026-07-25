@@ -3,9 +3,11 @@
 Model packs are published as GitHub Release assets, not committed as repository
 blobs. Release names use the pack ID and semantic version, for example:
 
-- `analysis-en-US-v1.0.0`
-- `analysis-tr-TR-v1.0.0`
-- `analysis-ja-JP-v1.0.0`
+- `context-qwen3-0.6b-v1.0.0`
+- `context-qwen3-1.7b-v1.0.0`
+- `prompt-en-US-v1.0.0`
+- `prompt-tr-TR-v1.0.0`
+- `prompt-ja-JP-v1.0.0`
 - `rules-multilingual-v1.0.0`
 - `speech-small-v1.0.0`
 - `speech-balanced-v1.0.0`
@@ -32,3 +34,6 @@ private credentials, or expiring authenticated URLs.
 
 This document defines a future process; it does not authorize or create a
 release.
+
+MiniLM and DistilBERT benchmark artifacts are archived research and must not be
+packaged or released as production chat-analysis packs.

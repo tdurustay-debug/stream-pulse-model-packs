@@ -6,7 +6,8 @@
   "required": [
     "manifestVersion",
     "generatedAt",
-    "languageAnalysisPacks",
+    "contextAnalysisPacks",
+    "languagePromptPacks",
     "ruleInterpreterPacks",
     "speechRecognitionPacks"
   ],
@@ -18,31 +19,29 @@
       "type": ["string", "null"],
       "format": "date-time"
     },
-    "languageAnalysisPacks": {
+    "contextAnalysisPacks": {
       "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
       "items": {
         "allOf": [
           {
-            "$ref": "#/$defs/pack"
+            "$ref": "#/$defs/modelPack"
           },
           {
             "type": "object",
+            "required": ["mode"],
             "properties": {
               "type": {
-                "const": "language-analysis"
+                "const": "context-analysis"
               },
               "language": {
+                "const": "multilingual"
+              },
+              "mode": {
                 "enum": [
-                  "en-US",
-                  "es-ES",
-                  "pt-BR",
-                  "ru-RU",
-                  "de-DE",
-                  "fr-FR",
-                  "ja-JP",
-                  "it-IT",
-                  "pl-PL",
-                  "tr-TR"
+                  "low-system",
+                  "high-accuracy"
                 ]
               },
               "optional": {
@@ -53,12 +52,22 @@
         ]
       }
     },
+    "languagePromptPacks": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/$defs/languagePromptPack"
+      }
+    },
     "ruleInterpreterPacks": {
       "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
       "items": {
         "allOf": [
           {
-            "$ref": "#/$defs/pack"
+            "$ref": "#/$defs/modelPack"
           },
           {
             "type": "object",
@@ -69,6 +78,7 @@
               "language": {
                 "const": "multilingual"
               },
+              "mode": false,
               "optional": {
                 "const": false
               }
@@ -79,10 +89,12 @@
     },
     "speechRecognitionPacks": {
       "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
       "items": {
         "allOf": [
           {
-            "$ref": "#/$defs/pack"
+            "$ref": "#/$defs/modelPack"
           },
           {
             "type": "object",
@@ -93,6 +105,7 @@
               "language": {
                 "const": "multilingual"
               },
+              "mode": false,
               "optional": {
                 "const": true
               }
@@ -141,7 +154,46 @@
       "type": ["integer", "null"],
       "minimum": 1
     },
-    "pack": {
+    "supportedLanguage": {
+      "enum": [
+        "en-US",
+        "es-ES",
+        "pt-BR",
+        "ru-RU",
+        "de-DE",
+        "fr-FR",
+        "ja-JP",
+        "it-IT",
+        "pl-PL",
+        "tr-TR"
+      ]
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "evaluating",
+        "ready",
+        "deprecated",
+        "disabled"
+      ]
+    },
+    "evaluationStatus": {
+      "enum": [
+        "not_started",
+        "testing",
+        "passed",
+        "failed"
+      ]
+    },
+    "backupLocations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "modelPack": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -181,42 +233,30 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[a-z0-9]+(?:-[A-Za-z0-9]+)*$"
+          "pattern": "^[a-z0-9]+(?:[.-][A-Za-z0-9]+)*$"
         },
         "type": {
           "enum": [
-            "language-analysis",
+            "context-analysis",
             "rule-interpreter",
             "speech-recognition"
           ]
         },
         "language": {
-          "enum": [
-            "en-US",
-            "es-ES",
-            "pt-BR",
-            "ru-RU",
-            "de-DE",
-            "fr-FR",
-            "ja-JP",
-            "it-IT",
-            "pl-PL",
-            "tr-TR",
-            "multilingual"
-          ]
+          "const": "multilingual"
         },
         "displayName": {
           "type": "string",
           "minLength": 1
         },
-        "status": {
+        "mode": {
           "enum": [
-            "planned",
-            "evaluating",
-            "ready",
-            "deprecated",
-            "disabled"
+            "low-system",
+            "high-accuracy"
           ]
+        },
+        "status": {
+          "$ref": "#/$defs/status"
         },
         "version": {
           "$ref": "#/$defs/nullableSemanticVersion"
@@ -261,12 +301,7 @@
           "$ref": "#/$defs/nullableHttpsUrl"
         },
         "backupLocations": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/backupLocations"
         },
         "sizeBytes": {
           "$ref": "#/$defs/nullableNonnegativeInteger"
@@ -303,12 +338,7 @@
           "minLength": 1
         },
         "evaluationStatus": {
-          "enum": [
-            "not_started",
-            "testing",
-            "passed",
-            "failed"
-          ]
+          "$ref": "#/$defs/evaluationStatus"
         },
         "evaluationNotes": {
           "type": ["string", "null"]
@@ -416,6 +446,173 @@
                 "type": "array",
                 "minItems": 1,
                 "uniqueItems": true
+              },
+              "evaluationStatus": {
+                "const": "passed"
+              },
+              "evaluationNotes": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "languagePromptPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "language",
+        "displayName",
+        "status",
+        "version",
+        "format",
+        "fileName",
+        "downloadUrl",
+        "backupLocations",
+        "sizeBytes",
+        "sha256",
+        "containsModelWeights",
+        "profileContents",
+        "description",
+        "evaluationStatus",
+        "evaluationNotes",
+        "optional"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^prompt-[a-z]{2}-[A-Z]{2}$"
+        },
+        "type": {
+          "const": "language-prompt"
+        },
+        "language": {
+          "$ref": "#/$defs/supportedLanguage"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "version": {
+          "$ref": "#/$defs/nullableSemanticVersion"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "enum": [
+                "text",
+                "json"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fileName": {
+          "$ref": "#/$defs/nullableNonemptyString"
+        },
+        "downloadUrl": {
+          "$ref": "#/$defs/nullableHttpsUrl"
+        },
+        "backupLocations": {
+          "$ref": "#/$defs/backupLocations"
+        },
+        "sizeBytes": {
+          "$ref": "#/$defs/nullableNonnegativeInteger"
+        },
+        "sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "containsModelWeights": {
+          "const": false
+        },
+        "profileContents": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "analysis_instructions",
+              "twitch_terminology",
+              "common_slang_examples",
+              "sarcasm_examples",
+              "playful_insult_examples",
+              "technical_complaint_examples",
+              "output_labels",
+              "confidence_thresholds"
+            ]
+          }
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluationStatus": {
+          "$ref": "#/$defs/evaluationStatus"
+        },
+        "evaluationNotes": {
+          "type": ["string", "null"]
+        },
+        "optional": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ready"
+              }
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "version": {
+                "$ref": "#/$defs/semanticVersion"
+              },
+              "format": {
+                "enum": [
+                  "text",
+                  "json"
+                ]
+              },
+              "fileName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "downloadUrl": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://"
+              },
+              "backupLocations": {
+                "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "sizeBytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
               },
               "evaluationStatus": {
                 "const": "passed"

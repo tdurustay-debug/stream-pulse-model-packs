@@ -1,5 +1,12 @@
 # Multilingual Analysis Base-Model Benchmark
 
+> **Research only — not selected for production chat analysis.**
+
+This report is an archived research record. MiniLM and DistilBERT must not be
+packaged or released as the production chat-analysis engine. The production
+architecture has moved to planned Qwen3 context analyzers with separate
+weight-free language prompt/profile packages.
+
 Run completed on 2026-07-25 UTC (2026-07-26 Europe/Istanbul).
 
 ## Scope and interpretation
@@ -208,7 +215,7 @@ this dataset neither tokenizer emitted any unknown content token.
   may influence startup timing; repeat on target deployment hardware before a
   production decision.
 
-## Neutral recommendation
+## Historical performance conclusion
 
 For this machine and implementation, Multilingual MiniLM is the
 performance-oriented lead: its downloaded snapshot and ONNX artifacts are
@@ -219,10 +226,8 @@ Peak-RSS differences are mixed and affected by sequential allocator retention,
 so they do not justify a strong memory conclusion without isolated-process
 reruns.
 
-This is not a recommendation to place MiniLM—or DistilBERT—in the production
-manifest. Final classification quality requires task-specific fine-tuning and
-a separately labeled, representative evaluation dataset for sentiment,
-conflict, questions, toxicity, spam, repeated complaints, streamer mentions,
-and activity summaries. The next evaluation should compare trained task heads,
-false-positive rates, calibration, slang, emojis, mixed-language messages, and
-Twitch-style text before any model receives production status.
+This performance result is superseded by the architecture decision. Neither
+MiniLM nor DistilBERT is a production candidate, and neither belongs in the
+production manifest. Future evaluation will instead test short-window
+contextual JSON analysis with the selected Qwen modes and separately labeled,
+representative evaluation data.

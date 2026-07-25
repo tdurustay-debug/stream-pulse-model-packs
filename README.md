@@ -11,8 +11,8 @@ Release assets after their legal and technical review is complete.
   owner's download URL.
 - A model owner removing, renaming, or changing a repository must not break the
   application.
-- The application downloads only the language, rule-interpreter, and optional
-  speech-recognition packs selected or enabled by the user.
+- The application downloads only the selected context analyzer, language
+  prompt/profile, rule-interpreter, and optional speech-recognition packs.
 - The versioned manifest controls pack versions and official download
   locations.
 - Every redistributed model must include its original license, notices, and
@@ -30,13 +30,25 @@ process.
 
 ## Pack strategy
 
-- Each supported language has a separate lightweight real-time analysis pack.
+- Low System Mode will use a planned Qwen3-0.6B context analyzer.
+- High Accuracy Mode will use a planned Qwen3-1.7B context analyzer.
+- Each analyzer processes a short recent-message window and returns a strict
+  JSON result.
+- The ten supported languages use small text or JSON prompt/profile packages.
+  They do not use ten separately trained full models, and language profiles
+  must never contain model weights.
 - One small shared multilingual rule-interpreter pack will translate
   natural-language rules into a strict machine-readable format. For example:
   “When at least five viewers complain about game audio within one minute, show
   an OBS alert.”
 - Speech-recognition packs are optional downloads with small and balanced
   profiles.
+
+The runtime flow is documented in
+[`docs/ANALYSIS_ARCHITECTURE.md`](docs/ANALYSIS_ARCHITECTURE.md). Historical
+MiniLM and DistilBERT performance work remains under `benchmarks/` as archived
+research only; neither model was selected for production chat analysis and
+neither may be packaged or released as the production analyzer.
 
 ## Manifest
 

@@ -18,17 +18,33 @@ const manifestPath = path.join(
   "model-manifest.json",
 );
 
-const expectedLanguagePacks = new Map([
-  ["analysis-en-US", "en-US"],
-  ["analysis-es-ES", "es-ES"],
-  ["analysis-pt-BR", "pt-BR"],
-  ["analysis-ru-RU", "ru-RU"],
-  ["analysis-de-DE", "de-DE"],
-  ["analysis-fr-FR", "fr-FR"],
-  ["analysis-ja-JP", "ja-JP"],
-  ["analysis-it-IT", "it-IT"],
-  ["analysis-pl-PL", "pl-PL"],
-  ["analysis-tr-TR", "tr-TR"],
+const expectedContextPacks = new Map([
+  ["context-qwen3-0.6b", "low-system"],
+  ["context-qwen3-1.7b", "high-accuracy"],
+]);
+
+const expectedLanguagePromptPacks = new Map([
+  ["prompt-en-US", "en-US"],
+  ["prompt-es-ES", "es-ES"],
+  ["prompt-pt-BR", "pt-BR"],
+  ["prompt-ru-RU", "ru-RU"],
+  ["prompt-de-DE", "de-DE"],
+  ["prompt-fr-FR", "fr-FR"],
+  ["prompt-ja-JP", "ja-JP"],
+  ["prompt-it-IT", "it-IT"],
+  ["prompt-pl-PL", "pl-PL"],
+  ["prompt-tr-TR", "tr-TR"],
+]);
+
+const expectedProfileContents = new Set([
+  "analysis_instructions",
+  "twitch_terminology",
+  "common_slang_examples",
+  "sarcasm_examples",
+  "playful_insult_examples",
+  "technical_complaint_examples",
+  "output_labels",
+  "confidence_thresholds",
 ]);
 
 const failures = [];
@@ -86,7 +102,8 @@ try {
   }
 
   const packs = [
-    ...manifest.languageAnalysisPacks,
+    ...manifest.contextAnalysisPacks,
+    ...manifest.languagePromptPacks,
     ...manifest.ruleInterpreterPacks,
     ...manifest.speechRecognitionPacks,
   ];
@@ -107,7 +124,7 @@ try {
     addFailure(`Duplicate ready filename: ${duplicateFileName}`);
   }
 
-  const requiredReadyValues = [
+  const requiredReadyModelValues = [
     "version",
     "runtime",
     "format",
@@ -126,8 +143,11 @@ try {
     "evaluationNotes",
   ];
 
-  for (const pack of readyPacks) {
-    for (const field of requiredReadyValues) {
+  const readyModelPacks = readyPacks.filter(
+    (pack) => pack.type !== "language-prompt",
+  );
+  for (const pack of readyModelPacks) {
+    for (const field of requiredReadyModelValues) {
       requireReadyValue(pack, field);
     }
     if (pack.redistributable !== true) {
@@ -154,23 +174,86 @@ try {
     }
   }
 
-  for (const [id, language] of expectedLanguagePacks) {
-    const matchingPacks = manifest.languageAnalysisPacks.filter(
+  const readyPromptPacks = readyPacks.filter(
+    (pack) => pack.type === "language-prompt",
+  );
+  for (const pack of readyPromptPacks) {
+    for (const field of [
+      "version",
+      "format",
+      "fileName",
+      "downloadUrl",
+      "sizeBytes",
+      "evaluationNotes",
+    ]) {
+      requireReadyValue(pack, field);
+    }
+    if (pack.containsModelWeights !== false) {
+      addFailure(`Language prompt pack "${pack.id}" must not contain weights.`);
+    }
+    if (!/^[a-fA-F0-9]{64}$/.test(pack.sha256 ?? "")) {
+      addFailure(`Ready pack "${pack.id}" has no valid SHA-256 value.`);
+    }
+    if (!Array.isArray(pack.backupLocations) || pack.backupLocations.length < 2) {
+      addFailure(
+        `Ready pack "${pack.id}" must have at least two backup locations.`,
+      );
+    }
+    if (pack.evaluationStatus !== "passed") {
+      addFailure(`Ready pack "${pack.id}" has not passed evaluation.`);
+    }
+  }
+
+  for (const [id, mode] of expectedContextPacks) {
+    const matchingPacks = manifest.contextAnalysisPacks.filter(
       (pack) =>
         pack.id === id &&
-        pack.type === "language-analysis" &&
-        pack.language === language,
+        pack.type === "context-analysis" &&
+        pack.mode === mode &&
+        pack.language === "multilingual",
     );
     if (matchingPacks.length !== 1) {
       addFailure(
-        `Expected exactly one language-analysis pack "${id}" for ${language}.`,
+        `Expected exactly one context-analysis pack "${id}" for mode "${mode}".`,
       );
     }
   }
 
-  if (manifest.languageAnalysisPacks.length !== expectedLanguagePacks.size) {
+  if (manifest.contextAnalysisPacks.length !== expectedContextPacks.size) {
     addFailure(
-      `Expected exactly ${expectedLanguagePacks.size} language-analysis packs, found ${manifest.languageAnalysisPacks.length}.`,
+      `Expected exactly ${expectedContextPacks.size} context-analysis packs, found ${manifest.contextAnalysisPacks.length}.`,
+    );
+  }
+
+  for (const [id, language] of expectedLanguagePromptPacks) {
+    const matchingPacks = manifest.languagePromptPacks.filter(
+      (pack) =>
+        pack.id === id &&
+        pack.type === "language-prompt" &&
+        pack.language === language &&
+        pack.containsModelWeights === false,
+    );
+    if (matchingPacks.length !== 1) {
+      addFailure(
+        `Expected exactly one weight-free language prompt pack "${id}" for ${language}.`,
+      );
+      continue;
+    }
+
+    const actualContents = new Set(matchingPacks[0].profileContents);
+    if (
+      actualContents.size !== expectedProfileContents.size ||
+      [...expectedProfileContents].some((item) => !actualContents.has(item))
+    ) {
+      addFailure(
+        `Language prompt pack "${id}" does not declare every required profile section.`,
+      );
+    }
+  }
+
+  if (manifest.languagePromptPacks.length !== expectedLanguagePromptPacks.size) {
+    addFailure(
+      `Expected exactly ${expectedLanguagePromptPacks.size} language prompt packs, found ${manifest.languagePromptPacks.length}.`,
     );
   }
 
